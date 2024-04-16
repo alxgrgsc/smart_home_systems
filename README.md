@@ -34,6 +34,4 @@ Once the server is running, you can use the client application to interact with 
 
 Contributions to the Smart Home System are welcome! If you encounter any issues or have ideas for improvements, please open an issue or submit a pull request on GitHub.
 
----
 
-Feel free to customize this README with additional information or sections as needed. Let me know if you need further assistance!
