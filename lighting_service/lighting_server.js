@@ -4,12 +4,14 @@ const PROTO_PATH = "smart_lighting.proto";
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const smartHomeProto = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
-//default states
+// Default states
 let lightStatus = 0; // 0 off / 1 on
 let brightnessLevel = 100; // brightness
 let currentColour = 'white'; // colour
 
-//gRPC service method for LightStatus
+const ALLOWED_COLOURS = ['white', 'red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink'];
+
+// gRPC service method for LightStatus
 function getLightStatus(call, callback) {
   console.log('Request for Light Status received');
   let statusMessage = lightStatus ? 'Light is on' : 'Light is off';
@@ -17,62 +19,57 @@ function getLightStatus(call, callback) {
   callback(null, { message: statusMessage });
 }
 
-//gRPC service method for BrightnessStatus
+// gRPC service method for BrightnessStatus
 function getBrightnessStatus(call, callback) {
-    //brightness level between 0-100
+    console.log('Request for Brightness Status received');
     brightnessLevel = Math.max(0, Math.min(100, brightnessLevel));
+    console.log('Sending Brightness Status:', brightnessLevel);
     callback(null, { brightnessLevel: brightnessLevel });
 }
 
-//gRPC service method for AdjustBrightness
+// gRPC service method for AdjustBrightness
 function adjustBrightness(call, callback) {
+  console.log('Request to adjust brightness received');
   const newBrightnessLevel = call.request.newBrightnessLevel;
-  //update brightnessLevel
   brightnessLevel = Math.max(0, Math.min(100, newBrightnessLevel));
   console.log('Brightness level:', brightnessLevel);
   callback(null, { message: `Brightness level: changed to ${brightnessLevel}` });
 }
 
-//gRPC service method for ChangeLightStatus
+// gRPC service method for ChangeLightStatus
 function changeLightStatus(call, callback) {
+  console.log('Request to change light status received');
   let newLightStatus = call.request.isOn;
-
-  // lightStatus must be true/false
   if (typeof newLightStatus !== 'boolean') {
     const errorMessage = 'Invalid value for new light status. Must be a boolean (true or false).';
     console.error(errorMessage);
     callback({ code: grpc.status.INVALID_ARGUMENT, message: errorMessage });
     return;
   }
-  
-  //update lightStatus
   lightStatus = newLightStatus;
   console.log('New light status:', lightStatus ? 'on' : 'off');
-  
   callback(null, { message: `Light status: changed to ${lightStatus ? 'on' : 'off'}` });
 }
 
-
-
-//gRPC service method for ColourStatus
+// gRPC service method for ColourStatus
 function getColourStatus(call, callback) {
+    console.log('Request for Colour Status received');
+    console.log('Sending Colour Status:', currentColour);
     callback(null, { colour: currentColour });
 }
 
-//gRPC service method for ChangeColour
+// gRPC service method for ChangeColour
 function changeColour(call, callback) {
+    console.log('Request to change colour received');
     const newColour = call.request.colour.toLowerCase(); 
-    const allowedColours = ['white', 'red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink'];
-    if (allowedColours.includes(newColour)) {
+    if (ALLOWED_COLOURS.includes(newColour)) {
         currentColour = newColour;
         console.log('Colour:', currentColour);
         callback(null, { message: `Colour changed to ${newColour}` });
     } else {
-        callback({ code: grpc.status.INVALID_ARGUMENT, message: 'Invalid colour. Allowed colours: white, red, green, blue, yellow, orange, purple, pink' });
+        callback({ code: grpc.status.INVALID_ARGUMENT, message: 'Invalid colour. Allowed colours: ' + ALLOWED_COLOURS.join(', ') });
     }
 }
-
-
 
 //create gRPC server
 const server = new grpc.Server();

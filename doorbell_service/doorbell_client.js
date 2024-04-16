@@ -3,23 +3,30 @@ const chalk = require('chalk');
 const protoLoader = require('@grpc/proto-loader');
 const readline = require('readline');
 
+//readline interface for user input
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
+//load the protocol buffer definition
 const packageDefinition = protoLoader.loadSync('smart_doorbell.proto', {});
 const smartDoorbell = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
+//create gRPC client
 const client = new smartDoorbell.Doorbell('localhost:50052', grpc.credentials.createInsecure());
 
+//function to ask user a question and return a promise
 function askQuestion(query) {
   return new Promise(resolve => rl.question(query, resolve));
 }
 
+//main
 async function main() {
   let continueQuery = true;
 
+
+  //loop until user exits
   do {
     console.log();
     console.log(chalk.yellow('Select an operation:'));
@@ -34,6 +41,7 @@ async function main() {
     switch (choice) {
       case '1':
         try {
+          //live video feed
           await new Promise((resolve, reject) => {
             const liveVideoFeedStream = client.LiveVideoFeed({});
             liveVideoFeedStream.on('data', response => {
@@ -60,6 +68,7 @@ async function main() {
         break;
       case '2':
         try {
+          //today's events
           await new Promise((resolve, reject) => {
             const todaysEventsStream = client.TodaysEvents({});
             todaysEventsStream.on('data', event => {
@@ -81,6 +90,7 @@ async function main() {
         break;
       case '3':
         try {
+          //silent mode status
           await new Promise((resolve, reject) => {
             client.SilentModeStatus({}, (error, response) => {
               if (error) {
@@ -100,6 +110,7 @@ async function main() {
         break;
       case '4':
         try {
+          //toggle silent mode 
           const toggleInput = await askQuestion('Toggle silent mode on (enter 1) or off (enter 0): ');
           const toggle = toggleInput.trim() === '1';
           await new Promise((resolve, reject) => {
@@ -123,6 +134,7 @@ async function main() {
         break;
     }
 
+    //ask user to continue querying
     let validAnswer = false;
     let anotherQuery = '';
     while (!validAnswer) {
@@ -136,7 +148,9 @@ async function main() {
     continueQuery = anotherQuery.toLowerCase() === 'y';
   } while (continueQuery);
 
+  //close readline interface
   rl.close();
 }
 
+//call main to start
 main();
