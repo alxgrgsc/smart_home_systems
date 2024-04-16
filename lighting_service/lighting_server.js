@@ -74,10 +74,10 @@ function changeColour(call, callback) {
 
 
 
-// Create gRPC server
+//create gRPC server
 const server = new grpc.Server();
 
-// Add gRPC service methods to the server
+//add gRPC service methods to the server
 server.addService(smartHomeProto.Lighting.service, {
     LightStatus: getLightStatus,
     BrightnessStatus: getBrightnessStatus,
@@ -87,7 +87,7 @@ server.addService(smartHomeProto.Lighting.service, {
     ChangeLightStatus: changeLightStatus
 });
 
-// Bind and start the server
+//bind and start the server
 server.bindAsync('127.0.0.1:50051', grpc.ServerCredentials.createInsecure(), (err, port) => {
     if (err) {
         console.error('Error starting server:', err);
