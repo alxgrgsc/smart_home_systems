@@ -1,0 +1,70 @@
+syntax = "proto3";
+package smart_home;
+
+// Lighting service
+service Lighting {
+    rpc LightStatus(LightStatusRequest) returns (LightStatusResponse) {}
+    rpc BrightnessStatus(BrightnessStatusRequest) returns (BrightnessStatusResponse) {}
+    rpc ColourStatus(ColourStatusRequest) returns (ColourStatusResponse) {}
+    rpc ChangeLightStatus(ChangeLightStatusRequest) returns (ChangeLightStatusResponse) {}    
+    rpc AdjustBrightness(AdjustBrightnessRequest) returns (AdjustBrightnessResponse) {}
+    rpc ChangeColour(ChangeColourRequest) returns (ChangeColourResponse) {}
+}
+
+// Lightstatus request
+message LightStatusRequest {
+}
+
+// Lightstatus response
+message LightStatusResponse {
+    string message = 1;
+}
+
+// BrightnessStatus request
+message BrightnessStatusRequest {
+}
+
+// BrightnessStatus response
+message BrightnessStatusResponse {
+    int32 brightnessLevel = 1;
+}
+
+// ColourStatus request
+message ColourStatusRequest {
+}
+
+// ColourStatus response
+message ColourStatusResponse {
+    string colour = 1;
+}
+
+// ChangeLightStatus request
+message ChangeLightStatusRequest {
+    bool isOn = 1;
+}
+
+// ChangeLightStatus response
+message ChangeLightStatusResponse {
+    string message = 1;
+}
+
+// AdjustBrightness request
+message AdjustBrightnessRequest {
+    int32 newBrightnessLevel = 1;
+}
+
+// AdjustBrightness response
+message AdjustBrightnessResponse {
+    string message = 1;
+}
+
+
+// ChangeColour request
+message ChangeColourRequest {
+    string colour = 1;
+}
+
+// ChangeColour response
+message ChangeColourResponse {
+    string message = 1;
+}
