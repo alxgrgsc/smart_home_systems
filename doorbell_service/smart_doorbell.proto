@@ -1,0 +1,45 @@
+syntax = "proto3";
+package smart_home;
+
+// Doorbell service
+service Doorbell {
+    rpc LiveVideoFeed(LiveVideoFeedRequest) returns (stream LiveVideoFeedResponse) {}
+    rpc TodaysEvents(TodaysEventsRequest) returns (stream TodaysEventsResponse) {} // Change return type to stream
+    rpc SilentModeStatus(SilentModeStatusRequest) returns (SilentModeStatusResponse) {}
+    rpc ToggleSilentMode(ToggleSilentModeRequest) returns (ToggleSilentModeResponse) {}
+}
+
+// Request to get live video feed
+message LiveVideoFeedRequest {}
+
+// Response containing the live video feed URL
+message LiveVideoFeedResponse {
+    string liveVideoUrl = 1;
+    string description = 2;
+}
+
+// Request to get today's events
+message TodaysEventsRequest {}
+
+// Response containing an event statement
+message TodaysEventsResponse {
+    string eventStatement = 1;
+}
+
+// Request to get the silent mode status
+message SilentModeStatusRequest {}
+
+// Response containing the silent mode status
+message SilentModeStatusResponse {
+    bool isSilentModeOn = 1;
+}
+
+// Request to toggle the silent mode
+message ToggleSilentModeRequest {
+    bool toggle = 1;
+}
+
+// Response indicating the result of toggling the silent mode
+message ToggleSilentModeResponse {
+    string message = 1;
+}
