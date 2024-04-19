@@ -7,7 +7,7 @@ const smartThermostat = grpc.loadPackageDefinition(packageDefinition).smart_home
 
 // Default states
 let currentTemperature = 20.5;
-let boostTemperature = currentTemperature + 2;
+let boostTemperature = 20;
 let isBoostActive = false;
 let boostTimeRemaining = 15;
 let isHotWaterOn = false;
@@ -52,21 +52,22 @@ server.addService(smartThermostat.Thermostat.service, {
   AdjustBoost: (call, callback) => {
     console.log('Request to adjust boost received');
     isBoostActive = true;
+    boostTemperature = call.request.boostTemperature; // update boostTemperature
     currentTemperature = call.request.boostTemperature;
     boostTimeRemaining = call.request.boostTime;
-    console.log(`Boost adjusted. Temperature: ${currentTemperature}, Time remaining: ${boostTimeRemaining}`);
-    callback(null, { message: `Boost adjusted. Temperature: ${currentTemperature}, Time remaining: ${boostTimeRemaining}` });
+    console.log(`Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining}`);
+    callback(null, { message: `Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining}` });
   },
   HotWaterStatus: (call, callback) => {
     console.log('Request for Hot Water Status received');
-    console.log('Sending Hot Water Status:', isHotWaterOn);
-    callback(null, { isHotWaterOn: isHotWaterOn });
+    console.log('Sending Hot Water Status:', isHotWaterOn ? 'On' : 'Off');
+    callback(null, { isHotWaterOn: isHotWaterOn ? 'On' : 'Off' });
   },
   SetHotWater: (call, callback) => {
     console.log('Request to set hot water status received');
     isHotWaterOn = call.request.setHotWater;
-    console.log('Hot water status set to:', isHotWaterOn);
-    callback(null, { message: `Hot water status set to ${isHotWaterOn}` });
+    console.log('Hot water status set to:', isHotWaterOn ? 'On' : 'Off');
+    callback(null, { message: `Hot water status set to ${isHotWaterOn ? 'On' : 'Off'}` });
   },
   ManageBoost: (call, callback) => {
     console.log('Request to manage boost received');
