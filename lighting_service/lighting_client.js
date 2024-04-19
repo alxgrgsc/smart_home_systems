@@ -110,25 +110,29 @@ async function main() {
           });
         }
         break;
-      case 'Adjust Brightness':
-        const { newBrightnessLevel } = await inquirer.prompt({
-          type: 'input',
-          name: 'newBrightnessLevel',
-          message: 'Enter new brightness level(0-100):',
-        });
-
-        await new Promise((resolve, reject) => {
-          client.AdjustBrightness({ newBrightnessLevel: parseInt(newBrightnessLevel, 10) }, (error, response) => {
-            if (error) {
-              console.error(error);
-              reject(error);
-            } else {
-              console.log(chalk.yellow(response.message));
-              resolve();
-            }
+        case 'Adjust Brightness':
+          const { newBrightnessLevel } = await inquirer.prompt({
+            type: 'input',
+            name: 'newBrightnessLevel',
+            message: 'Enter new brightness level(0-100):',
+            validate: function(value) {
+              var valid = !isNaN(parseFloat(value)) && isFinite(value) && value >= 0 && value <= 100;
+              return valid || 'Please enter a number between 0 and 100';
+            },
           });
-        });
-        break;
+        
+          await new Promise((resolve, reject) => {
+            client.AdjustBrightness({ newBrightnessLevel: parseInt(newBrightnessLevel, 10) }, (error, response) => {
+              if (error) {
+                console.error(error);
+                reject(error);
+              } else {
+                console.log(chalk.yellow(response.message));
+                resolve();
+              }
+            });
+          });
+          break;
       case 'Change Colour':
         const { newColour } = await inquirer.prompt({
           type: 'list',
