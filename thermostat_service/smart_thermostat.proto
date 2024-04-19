@@ -5,7 +5,9 @@ package smart_home;
 service Thermostat {
     rpc TemperatureStatus(TemperatureStatusRequest) returns (TemperatureStatusResponse) {}
     rpc SetTemperature(SetTemperatureRequest) returns (SetTemperatureResponse) {}
-    rpc BoostTemperature(BoostTemperatureRequest) returns (BoostTemperatureResponse) {}
+    rpc BoostStatus(BoostStatusRequest) returns (BoostStatusResponse) {}
+    rpc ManageBoost(ManageBoostRequest) returns (ManageBoostResponse) {} // Renamed from BoostTemperature
+    rpc SetBoost(SetBoostRequest) returns (SetBoostResponse) {}
     rpc HotWaterStatus(HotWaterStatusRequest) returns (HotWaterStatusResponse) {}
     rpc SetHotWater(SetHotWaterRequest) returns (SetHotWaterResponse) {}
 }
@@ -29,15 +31,36 @@ message SetTemperatureResponse {
     string message = 1;
 }
 
-// BoostTemperature request
-message BoostTemperatureRequest {
-    double boostTemperature = 1;
-    int32 boostTime = 2; // in quarters of an hour
+// BoostStatus request
+message BoostStatusRequest {
 }
 
-// BoostTemperature response
-message BoostTemperatureResponse {
+// BoostStatus response
+message BoostStatusResponse {
+  bool isBoostActive = 1;
+  int32 boostTimeRemaining = 2; 
+  double boostTemperature = 3;//
+}
+
+// ManageBoost request
+message ManageBoostRequest { 
+    double boostTemperature = 1;
+    int32 boostTime = 2; // 
+}
+
+// ManageBoost response
+message ManageBoostResponse { 
     string message = 1;
+}
+
+// SetBoost request
+message SetBoostRequest {
+  bool setBoost = 1;
+}
+
+// SetBoost response
+message SetBoostResponse {
+  string message = 1;
 }
 
 // HotWaterStatus request
