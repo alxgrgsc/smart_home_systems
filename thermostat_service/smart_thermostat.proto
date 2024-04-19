@@ -1,0 +1,60 @@
+syntax = "proto3";
+package smart_home;
+
+// Thermostat service
+service Thermostat {
+    rpc TemperatureStatus(TemperatureStatusRequest) returns (TemperatureStatusResponse) {}
+    rpc SetTemperature(SetTemperatureRequest) returns (SetTemperatureResponse) {}
+    rpc BoostTemperature(BoostTemperatureRequest) returns (BoostTemperatureResponse) {}
+    rpc HotWaterStatus(HotWaterStatusRequest) returns (HotWaterStatusResponse) {}
+    rpc SetHotWater(SetHotWaterRequest) returns (SetHotWaterResponse) {}
+}
+
+// TemperatureStatus request
+message TemperatureStatusRequest {
+}
+
+// TemperatureStatus response
+message TemperatureStatusResponse {
+    double currentTemperature = 1;
+}
+
+// SetTemperature request
+message SetTemperatureRequest {
+    double setTemperature = 1;
+}
+
+// SetTemperature response
+message SetTemperatureResponse {
+    string message = 1;
+}
+
+// BoostTemperature request
+message BoostTemperatureRequest {
+    double boostTemperature = 1;
+    int32 boostTime = 2; // in quarters of an hour
+}
+
+// BoostTemperature response
+message BoostTemperatureResponse {
+    string message = 1;
+}
+
+// HotWaterStatus request
+message HotWaterStatusRequest {
+}
+
+// HotWaterStatus response
+message HotWaterStatusResponse {
+    bool isHotWaterOn = 1;
+}
+
+// SetHotWater request
+message SetHotWaterRequest {
+    bool setHotWater = 1;
+}
+
+// SetHotWater response
+message SetHotWaterResponse {
+    string message = 1;
+}
