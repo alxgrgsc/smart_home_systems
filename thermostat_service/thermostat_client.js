@@ -142,7 +142,7 @@ async function main() {
             }, {
               type: 'input',
               name: 'boostTime',
-              message: 'Enter boost time:',
+              message: 'Enter boost time(minutes):',
               validate: function(value) {
                 var valid = !isNaN(parseFloat(value));
                 if (!valid) {
@@ -150,7 +150,7 @@ async function main() {
                 }
                 var time = parseFloat(value);
                 if (time < 15 || time > 240) {
-                  return 'Please enter a time between 15 and 240';
+                  return 'Please enter a time between 15 minutes and 240 minutes';
                 }
                 return true;
               },

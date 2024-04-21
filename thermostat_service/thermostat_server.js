@@ -55,7 +55,7 @@ server.addService(smartThermostat.Thermostat.service, {
     boostTemperature = call.request.boostTemperature; // update boostTemperature
     boostTimeRemaining = call.request.boostTime;
     console.log(`Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining}`);
-    callback(null, { message: `Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining}` });
+    callback(null, { message: `Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining} minutes` });
   },
   HotWaterStatus: (call, callback) => {
     console.log('Request for Hot Water Status received');
