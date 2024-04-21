@@ -52,7 +52,14 @@ async function main() {
           message: 'Enter new temperature:',
           validate: function (value) {
             var valid = !isNaN(parseFloat(value));
-            return valid || 'Please enter a valid number';
+            if (!valid) {
+              return 'Please enter a valid number';
+            }
+            var temp = parseFloat(value);
+            if (temp < 5 || temp > 35) {
+              return 'Please enter a temperature between 5 and 35';
+            }
+            return true;
           },
         });
 
@@ -123,7 +130,14 @@ async function main() {
               message: 'Enter boost temperature:',
               validate: function(value) {
                 var valid = !isNaN(parseFloat(value));
-                return valid || 'Please enter a valid number';
+                if (!valid) {
+                  return 'Please enter a valid number';
+                }
+                var temp = parseFloat(value);
+                if (temp < 5 || temp > 35) {
+                  return 'Please enter a temperature between 5 and 35';
+                }
+                return true;
               },
             }, {
               type: 'input',
@@ -131,7 +145,14 @@ async function main() {
               message: 'Enter boost time:',
               validate: function(value) {
                 var valid = !isNaN(parseFloat(value));
-                return valid || 'Please enter a valid number';
+                if (!valid) {
+                  return 'Please enter a valid number';
+                }
+                var time = parseFloat(value);
+                if (time < 15 || time > 240) {
+                  return 'Please enter a time between 15 and 240';
+                }
+                return true;
               },
             }]);
 
