@@ -25,8 +25,8 @@ server.addService(smartThermostat.Thermostat.service, {
   SetTemperature: (call, callback) => {
     console.log('Request to set temperature received');
     currentTemperature = call.request.setTemperature;
-    console.log('Temperature set to:', currentTemperature);
-    callback(null, { message: `Temperature set to ${currentTemperature}` });
+    console.log('Temperature set to:', currentTemperature + '\u00B0C');
+    callback(null, { message: `Temperature set to ${currentTemperature}\u00B0C` });
   },
   BoostStatus: (call, callback) => {
     console.log('Request for Boost Status received');

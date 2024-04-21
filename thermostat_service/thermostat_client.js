@@ -19,7 +19,7 @@ async function main() {
     const { choice } = await inquirer.prompt({
       type: 'list',
       name: 'choice',
-      message: chalk.yellow('Select an operation:'),
+      message: chalk.yellow('Hive Thermostat (\u00B0C):'),
       choices: [
         'Temperature Status',
         'Set Temperature',
@@ -39,7 +39,7 @@ async function main() {
               console.error(error);
               reject(error);
             } else {
-              console.log('Temperature Status:', chalk.yellow(response.currentTemperature));
+              console.log('Temperature Status:', chalk.yellow(response.currentTemperature + '\u00B0C'));
               resolve();
             }
           });
@@ -49,7 +49,7 @@ async function main() {
         const { setTemperature } = await inquirer.prompt({
           type: 'input',
           name: 'setTemperature',
-          message: 'Enter new temperature:',
+          message: 'Enter new temperature(\u00B0C):',
           validate: function (value) {
             var valid = !isNaN(parseFloat(value));
             if (!valid) {
