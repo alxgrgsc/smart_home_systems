@@ -85,7 +85,10 @@ server.addService(smartThermostat.Thermostat.service, {
   },
 });
 
-//start the server
-server.bindAsync('localhost:50053', grpc.ServerCredentials.createInsecure(), () => {
-  console.log('Server running on http://localhost:50053');
+server.bindAsync('127.0.0.1:50053', grpc.ServerCredentials.createInsecure(), (err, port) => {
+  if (err) {
+      console.error('Error starting server:', err);
+  } else {
+      console.log('Server started successfully, listening on port', port);
+  }
 });
