@@ -52,7 +52,7 @@ async function main() {
               console.error(error);
               reject(error);
             } else {
-              console.log('Brightness level:', response.brightnessLevel);
+              console.log('Brightness level:', response.brightnessLevel,'%');
               resolve();
             }
           });
@@ -159,10 +159,16 @@ async function main() {
     }
 
     const { anotherQuery } = await inquirer.prompt({
-      type: 'confirm',
+      type: 'input',
       name: 'anotherQuery',
-      message: 'Do you want to select another query?',
+      message: 'Do you want to select another query? (y/n)',
+      validate: function(value) {
+        var valid = value.toLowerCase() === 'y' || value.toLowerCase() === 'n';
+        return valid || 'Please enter y for Yes or n for No';
+      },
     });
+    
+    continueQuery = anotherQuery.toLowerCase() === 'y';
 
     continueQuery = anotherQuery;
   } while (continueQuery);

@@ -23,7 +23,7 @@ function getLightStatus(call, callback) {
 function getBrightnessStatus(call, callback) {
     console.log('Request for Brightness Status received');
     brightnessLevel = Math.max(0, Math.min(100, brightnessLevel));
-    console.log('Sending Brightness Status:', brightnessLevel);
+    console.log('Sending Brightness Status:', brightnessLevel, '%');
     callback(null, { brightnessLevel: brightnessLevel });
 }
 
@@ -32,8 +32,8 @@ function adjustBrightness(call, callback) {
   console.log('Request to adjust brightness received');
   const newBrightnessLevel = call.request.newBrightnessLevel;
   brightnessLevel = Math.max(0, Math.min(100, newBrightnessLevel));
-  console.log('Brightness level:', brightnessLevel);
-  callback(null, { message: `Brightness level: changed to ${brightnessLevel}` });
+  console.log('Brightness level:', brightnessLevel,'%');
+  callback(null, { message: `Brightness level: changed to ${brightnessLevel}%` });
 }
 
 // gRPC service method for ChangeLightStatus
