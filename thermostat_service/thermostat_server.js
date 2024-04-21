@@ -32,7 +32,7 @@ server.addService(smartThermostat.Thermostat.service, {
     console.log('Request for Boost Status received');
     let boostStatusMessage = 'Boost Status: ';
     if (isBoostActive) {
-      boostStatusMessage += `On ${boostTemperature} degrees ${boostTimeRemaining} minutes`;
+      boostStatusMessage += ` ${boostTemperature}\u00B0C / ${boostTimeRemaining} minutes`;
     } else {
       boostStatusMessage += 'Off';
     }
@@ -47,15 +47,15 @@ server.addService(smartThermostat.Thermostat.service, {
       boostTimeRemaining = 30;
     }
     console.log('Boost set to:', isBoostActive ? 'On' : 'Off');
-    callback(null, { message: `Boost set to ${isBoostActive ? 'On' : 'Off'}` });
+    callback(null, { message: `Boost set to: ${isBoostActive ? 'On' : 'Off'}` });
   },
   AdjustBoost: (call, callback) => {
     console.log('Request to adjust boost received');
     isBoostActive = true;
     boostTemperature = call.request.boostTemperature; // update boostTemperature
     boostTimeRemaining = call.request.boostTime;
-    console.log(`Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining}`);
-    callback(null, { message: `Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining} minutes` });
+    console.log(`Boost adjusted. Temperature: ${boostTemperature}\u00B0C / Time remaining: ${boostTimeRemaining}`);
+    callback(null, { message: `Boost adjusted. Temperature: ${boostTemperature}\u00B0C, Time remaining: ${boostTimeRemaining} minutes` });
   },
   HotWaterStatus: (call, callback) => {
     console.log('Request for Hot Water Status received');
@@ -74,8 +74,8 @@ server.addService(smartThermostat.Thermostat.service, {
       isBoostActive = true;
       boostTemperature = call.request.boostTemperature; // update boostTemperature
       boostTimeRemaining = call.request.boostTime;
-      console.log(`Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining}`);
-      callback(null, { message: `Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining}` });
+      console.log(`Boost adjusted. Temperature: ${boostTemperature}\u00B0C, Time remaining: ${boostTimeRemaining} minutes`);
+      callback(null, { message: `Boost adjusted. Temperature: ${boostTemperature}\u00B0C, Time remaining: ${boostTimeRemaining} minutes` });
     } else {
       callback({
         code: grpc.status.INVALID_ARGUMENT,

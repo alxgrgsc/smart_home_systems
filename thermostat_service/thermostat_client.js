@@ -57,7 +57,7 @@ async function main() {
             }
             var temp = parseFloat(value);
             if (temp < 5 || temp > 35) {
-              return 'Please enter a temperature between 5 and 35';
+              return 'Please enter a temperature between 5\u00B0C and 35\u00B0C';
             }
             return true;
           },
@@ -84,7 +84,7 @@ async function main() {
             } else {
               let boostStatusMessage = 'Boost Status: ';
               if (response.isBoostActive) {
-                boostStatusMessage += `On ${response.boostTemperature} degrees ${response.boostTimeRemaining} minutes`;
+                boostStatusMessage += ` ${response.boostTemperature}\u00B0C / ${response.boostTimeRemaining} minutes`;
               } else {
                 boostStatusMessage += 'Off';
               }
@@ -127,7 +127,7 @@ async function main() {
             const { boostTemperature, boostTime } = await inquirer.prompt([{
               type: 'input',
               name: 'boostTemperature',
-              message: 'Enter boost temperature:',
+              message: 'Enter boost temperature(\u00B0C):',
               validate: function(value) {
                 var valid = !isNaN(parseFloat(value));
                 if (!valid) {
@@ -135,7 +135,7 @@ async function main() {
                 }
                 var temp = parseFloat(value);
                 if (temp < 5 || temp > 35) {
-                  return 'Please enter a temperature between 5 and 35';
+                  return 'Please enter a temperature between 5\u00B0C and 35\u00B0C';
                 }
                 return true;
               },
@@ -146,7 +146,7 @@ async function main() {
               validate: function(value) {
                 var valid = !isNaN(parseFloat(value));
                 if (!valid) {
-                  return 'Please enter a valid number';
+                  return 'Please enter a valid time in minutes between 15 and 240';
                 }
                 var time = parseFloat(value);
                 if (time < 15 || time > 240) {
@@ -209,10 +209,16 @@ async function main() {
     }
 
     const { anotherQuery } = await inquirer.prompt({
-      type: 'confirm',
+      type: 'input',
       name: 'anotherQuery',
-      message: 'Do you want to select another query?',
+      message: 'Do you want to select another query? (y/n)',
+      validate: function(value) {
+        var valid = value.toLowerCase() === 'y' || value.toLowerCase() === 'n';
+        return valid || 'Please enter y for Yes or n for No';
+      },
     });
+    
+    continueQuery = anotherQuery.toLowerCase() === 'y';
 
     continueQuery = anotherQuery;
   } while (continueQuery);
