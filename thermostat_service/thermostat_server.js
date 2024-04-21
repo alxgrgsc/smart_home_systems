@@ -53,7 +53,6 @@ server.addService(smartThermostat.Thermostat.service, {
     console.log('Request to adjust boost received');
     isBoostActive = true;
     boostTemperature = call.request.boostTemperature; // update boostTemperature
-    currentTemperature = call.request.boostTemperature;
     boostTimeRemaining = call.request.boostTime;
     console.log(`Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining}`);
     callback(null, { message: `Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining}` });
@@ -61,7 +60,7 @@ server.addService(smartThermostat.Thermostat.service, {
   HotWaterStatus: (call, callback) => {
     console.log('Request for Hot Water Status received');
     console.log('Sending Hot Water Status:', isHotWaterOn ? 'On' : 'Off');
-    callback(null, { isHotWaterOn: isHotWaterOn ? 'On' : 'Off' });
+    callback(null, { message: `${isHotWaterOn ? 'On' : 'Off'}` });
   },
   SetHotWater: (call, callback) => {
     console.log('Request to set hot water status received');
@@ -73,10 +72,10 @@ server.addService(smartThermostat.Thermostat.service, {
     console.log('Request to manage boost received');
     if (call.request.boostTemperature && call.request.boostTime) {
       isBoostActive = true;
-      currentTemperature = call.request.boostTemperature;
+      boostTemperature = call.request.boostTemperature; // update boostTemperature
       boostTimeRemaining = call.request.boostTime;
-      console.log(`Boost adjusted. Temperature: ${currentTemperature}, Time remaining: ${boostTimeRemaining}`);
-      callback(null, { message: `Boost adjusted. Temperature: ${currentTemperature}, Time remaining: ${boostTimeRemaining}` });
+      console.log(`Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining}`);
+      callback(null, { message: `Boost adjusted. Temperature: ${boostTemperature}, Time remaining: ${boostTimeRemaining}` });
     } else {
       callback({
         code: grpc.status.INVALID_ARGUMENT,

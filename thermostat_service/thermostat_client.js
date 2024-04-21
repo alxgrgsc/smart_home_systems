@@ -156,7 +156,7 @@ async function main() {
               console.error(error);
               reject(error);
             } else {
-              console.log('Hot Water Status:', chalk.yellow(response.isHotWaterOn));
+              console.log('Hot Water Status:', chalk.yellow(response.message));
               resolve();
             }
           });

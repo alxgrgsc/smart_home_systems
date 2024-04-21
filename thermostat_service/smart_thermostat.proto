@@ -69,7 +69,7 @@ message HotWaterStatusRequest {
 
 // HotWaterStatus response
 message HotWaterStatusResponse {
-    bool isHotWaterOn = 1;
+    string message = 1;
 }
 
 // SetHotWater request
