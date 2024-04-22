@@ -10,8 +10,8 @@ let silentMode = false;
 //gRPC service method for LiveVideoFeed
 function liveVideoFeed(call) {
   console.log('Request for Live Video Feed received');
-  const videoUrl = "https://rb.gy/85vh2p";
-  const description = "Playa de Los Cristianos - Tenerife Live";
+  const videoUrl = "https://rb.gy/tqh0js";
+  const description = "Dublin Pub Live Stream";
   call.write({ liveVideoUrl: videoUrl });
   call.write({ description: description });
   call.end();

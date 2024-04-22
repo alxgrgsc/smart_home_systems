@@ -22,7 +22,7 @@ function main() {
         const { choice } = await inquirer.prompt({
           type: 'list',
           name: 'choice',
-          message: chalk.yellow('Select an operation:'),
+          message: chalk.yellow('Eufy Doorbell:'),
           choices: [
             'Live Video Feed',
             'Today\'s Events',

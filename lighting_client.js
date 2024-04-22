@@ -22,7 +22,7 @@ function main() {
         const { choice } = await inquirer.prompt({
           type: 'list',
           name: 'choice',
-          message: chalk.yellow('Select an operation:'),
+          message: chalk.yellow('Hue Lighting:'),
           choices: [
             'Light Status',
             'Turn Light On/Off',
