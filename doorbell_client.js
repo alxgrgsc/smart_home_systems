@@ -50,7 +50,6 @@ function main() {
                 reject(error);
               });
               liveVideoFeedStream.on('end', () => {
-                console.log('End of Live Video Feed');
                 console.log();
                 resolve();
               });

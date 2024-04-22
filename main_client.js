@@ -11,20 +11,20 @@ async function main() {
       type: 'list',
       name: 'clientChoice',
       message: 'Which client do you want to interact with?',
-      choices: ['Thermostat', 'Light', 'Door'],
+      choices: ['Hive Thermostat', 'Hue Lighting', 'Eufy Doorbell'],
     });
 
     switch (clientChoice) {
-      case 'Thermostat':
+      case 'Hive Thermostat':
         console.log('Loading Thermostat Client...');
         await thermostatClient.main()();
         break;
 
-      case 'Light':
+      case 'Hue Lighting':
         console.log('Loading Light Client...');
         await lightClient.main()();
         break;
-      case 'Door':
+      case 'Eufy Doorbell':
         console.log('Loading Doorbell Client...');
         await doorClient.main()();
         break;
