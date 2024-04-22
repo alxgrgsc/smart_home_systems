@@ -14,6 +14,10 @@ let currentColour = 'white'; // colour
 //allowed colours
 const ALLOWED_COLOURS = ['white', 'red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink'];
 
+//create gRPC server
+const server = new grpc.Server();
+
+
 // gRPC service method for LightStatus
 function getLightStatus(call, callback) {
   console.log('Request for Light Status received');
@@ -74,8 +78,6 @@ function changeColour(call, callback) {
     }
 }
 
-//create gRPC server
-const server = new grpc.Server();
 
 //add gRPC service methods to the server
 server.addService(smartHomeProto.Lighting.service, {
