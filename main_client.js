@@ -17,16 +17,16 @@ async function main() {
     switch (clientChoice) {
       case 'Thermostat':
         console.log('Loading Thermostat Client...');
-        await thermostatClient.main();
+        await thermostatClient.main()();
         break;
 
       case 'Light':
         console.log('Loading Light Client...');
-        await lightClient.main()();  // Call the function returned by main
+        await lightClient.main()();
         break;
       case 'Door':
-        console.log('Loading Door Client...');
-        await doorClient.main();
+        console.log('Loading Doorbell Client...');
+        await doorClient.main()();
         break;
       default:
         console.log('Invalid choice. Please select an option from the list.');
