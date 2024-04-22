@@ -8,9 +8,11 @@ const packageDefinition = protoLoader.loadSync('smart_thermostat.proto', {});
 const smartThermostat = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
 //create a new client instance
-const client = new smartThermostat.Thermostat('localhost:50053', grpc.credentials.createInsecure());
 
-async function main() {
+function main() {
+  return async function(){
+  const client = new smartThermostat.Thermostat('localhost:50053', grpc.credentials.createInsecure());
+
   let continueQuery = true;
 
   do {
@@ -223,5 +225,7 @@ async function main() {
     continueQuery = anotherQuery;
   } while (continueQuery);
 }
+}
 
-main();
+
+module.exports.main = main;

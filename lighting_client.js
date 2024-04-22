@@ -8,9 +8,11 @@ const packageDefinition = protoLoader.loadSync('smart_lighting.proto', {});
 const smartLighting = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
 //create gRPC client
-const client = new smartLighting.Lighting('localhost:50051', grpc.credentials.createInsecure());
 
-async function main() {
+
+function main() {
+  return async function(){
+  const client = new smartLighting.Lighting('localhost:50051', grpc.credentials.createInsecure());
   let continueQuery = true;
 
   do {
@@ -169,9 +171,11 @@ async function main() {
     });
     
     continueQuery = anotherQuery.toLowerCase() === 'y';
-
-    continueQuery = anotherQuery;
   } while (continueQuery);
+}
 }
 
 main();
+
+module.exports.main = main;
+

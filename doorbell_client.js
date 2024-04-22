@@ -8,9 +8,11 @@ const packageDefinition = protoLoader.loadSync('smart_doorbell.proto', {});
 const smartDoorbell = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
 //create gRPC client
-const client = new smartDoorbell.Doorbell('localhost:50052', grpc.credentials.createInsecure());
 
-async function main() {
+
+function main() {
+  return async function(){
+  const client = new smartDoorbell.Doorbell('localhost:50052', grpc.credentials.createInsecure());
   let continueQuery = true;
 
   do {
@@ -116,19 +118,15 @@ async function main() {
     }
 
     const { anotherQuery } = await inquirer.prompt({
-      type: 'input',
+      type: 'confirm',
       name: 'anotherQuery',
-      message: 'Do you want to select another query? (y/n)',
-      validate: function(value) {
-        var valid = value.toLowerCase() === 'y' || value.toLowerCase() === 'n';
-        return valid || 'Please enter y for Yes or n for No';
-      },
+      message: 'Do you want to select another query?',
     });
-    
-    continueQuery = anotherQuery.toLowerCase() === 'y';
 
     continueQuery = anotherQuery;
   } while (continueQuery);
 }
+}
 
-main();
+
+module.exports.main = main;
