@@ -35,16 +35,13 @@ async function main() {
     }
 
     const { anotherQuery } = await inquirer.prompt({
-      type: 'input',
+      type: 'list',
       name: 'anotherQuery',
-      message: 'Do you want to select another client? (y/n)',
-      validate: function (value) {
-        var valid = value.toLowerCase() === 'y' || value.toLowerCase() === 'n';
-        return valid || 'Please enter y for Yes or n for No';
-      },
+      message: 'Do you want to select another service?',
+      choices: ['Yes', 'No']
     });
 
-    continueQuery = anotherQuery.toLowerCase() === 'y';
+    continueQuery = anotherQuery === 'Yes';
   } while (continueQuery);
 }
 

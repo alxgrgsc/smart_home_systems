@@ -9,7 +9,6 @@ const smartLighting = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
 //create gRPC client
 
-
 function main() {
   return async function () {
     try {
@@ -43,6 +42,7 @@ function main() {
                   reject(error);
                 } else {
                   console.log('Light status:', chalk.yellow(response.message));
+                  console.log();
                   resolve();
                 }
               });
@@ -56,6 +56,7 @@ function main() {
                   reject(error);
                 } else {
                   console.log('Brightness level:', response.brightnessLevel, '%');
+                  console.log();
                   resolve();
                 }
               });
@@ -69,6 +70,7 @@ function main() {
                   reject(error);
                 } else {
                   console.log('Current colour:', chalk.yellow(response.colour));
+                  console.log();
                   resolve();
                 }
               });
@@ -92,6 +94,7 @@ function main() {
                   reject(error);
                 } else {
                   currentStatus = response.isOn;
+                  console.log();
                   resolve();
                 }
               });
@@ -151,6 +154,7 @@ function main() {
                   reject(error);
                 } else {
                   console.log(chalk.yellow(response.message));
+                  console.log();
                   resolve();
                 }
               });
@@ -162,16 +166,13 @@ function main() {
         }
 
         const { anotherQuery } = await inquirer.prompt({
-          type: 'input',
+          type: 'list',
           name: 'anotherQuery',
-          message: 'Do you want to select another query? (y/n)',
-          validate: function (value) {
-            var valid = value.toLowerCase() === 'y' || value.toLowerCase() === 'n';
-            return valid || 'Please enter y for Yes or n for No';
-          },
+          message: 'Do you want to select another query?',
+          choices: ['Yes', 'No']
         });
 
-        continueQuery = anotherQuery.toLowerCase() === 'y';
+        continueQuery = anotherQuery === 'Yes';
       } while (continueQuery);
     } catch (error) {
       if (error.code === grpc.status.UNAVAILABLE) {
