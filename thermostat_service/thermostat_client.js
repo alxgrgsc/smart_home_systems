@@ -4,7 +4,7 @@ const protoLoader = require('@grpc/proto-loader');
 const inquirer = require('inquirer');
 
 //load the protocol buffer definition
-const packageDefinition = protoLoader.loadSync('smart_thermostat.proto', {});
+const packageDefinition = protoLoader.loadSync('./thermostat_service/smart_thermostat.proto', {});
 const smartThermostat = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
 //create a new client instance

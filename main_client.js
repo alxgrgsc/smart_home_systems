@@ -1,6 +1,7 @@
-const thermostatClient = require('./thermostat_client');
-const lightClient = require('./lighting_client');
-const doorClient = require('./doorbell_client');
+const thermostatClient = require('./thermostat_service/thermostat_client');
+const lightClient = require('./lighting_service/lighting_client');
+const doorClient = require('./doorbell_service/doorbell_client');
+console.log('Doorbell');
 const inquirer = require('inquirer');
 
 async function main() {

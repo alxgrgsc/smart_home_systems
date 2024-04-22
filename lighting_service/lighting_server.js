@@ -1,6 +1,6 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
-const PROTO_PATH = "smart_lighting.proto";
+const PROTO_PATH = "./lighting_service/smart_lighting.proto";
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const smartHomeProto = grpc.loadPackageDefinition(packageDefinition).smart_home;
 

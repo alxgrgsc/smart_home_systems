@@ -4,7 +4,7 @@ const protoLoader = require('@grpc/proto-loader');
 const inquirer = require('inquirer');
 
 //load the protocol buffer definition
-const packageDefinition = protoLoader.loadSync('smart_doorbell.proto', {});
+const packageDefinition = protoLoader.loadSync('./doorbell_service/smart_doorbell.proto', {});
 const smartDoorbell = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
 //create gRPC client

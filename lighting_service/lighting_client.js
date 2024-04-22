@@ -4,7 +4,7 @@ const protoLoader = require('@grpc/proto-loader');
 const inquirer = require('inquirer');
 
 //load the protocol buffer definition
-const packageDefinition = protoLoader.loadSync('smart_lighting.proto', {});
+const packageDefinition = protoLoader.loadSync('./lighting_service/smart_lighting.proto', {});
 const smartLighting = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
 //create gRPC client
