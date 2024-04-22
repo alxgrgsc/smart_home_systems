@@ -228,7 +228,7 @@ function main() {
       if (error.code === grpc.status.UNAVAILABLE) {
         console.error(chalk.red('Error: Server is unavailable. Please try again later.'));
       } else {
-        console.error(chalk.red('Error:', error.details));
+        console.error(chalk.red('Error:', error.message));
       }
     }
   }
