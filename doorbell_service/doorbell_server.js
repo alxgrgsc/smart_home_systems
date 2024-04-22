@@ -1,11 +1,17 @@
+//Purpose: Server for the smart doorbell service. It provides the implementation for the doorbell service methods, such as live video feed, today's events, silent mode status, and toggling silent mode.
+
+//import modules
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const PROTO_PATH = "./doorbell_service/smart_doorbell.proto";
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const smartHomeProto = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
-//default state 
+//initialize default state
 let silentMode = false;
+
+//create a new gRPC server
+const server = new grpc.Server();
 
 //gRPC service method for LiveVideoFeed
 function liveVideoFeed(call) {
@@ -45,8 +51,7 @@ function toggleSilentMode(call, callback) {
   callback(null, { message });
 }
 
-//create gRPC server
-const server = new grpc.Server();
+
 
 //add gRPC service methods to the server
 server.addService(smartHomeProto.Doorbell.service, {

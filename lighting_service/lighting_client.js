@@ -1,3 +1,7 @@
+// Purpose: Client for the smart lighting service. It allows the user to interact with the lighting service by querying the current status of the light, turning the light on or off, adjusting the brightness level, and changing the colour of the light.
+
+
+//import modules
 const grpc = require('@grpc/grpc-js');
 const chalk = require('chalk');
 const protoLoader = require('@grpc/proto-loader');
@@ -7,17 +11,17 @@ const inquirer = require('inquirer');
 const packageDefinition = protoLoader.loadSync('./lighting_service/smart_lighting.proto', {});
 const smartLighting = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
-//create gRPC client
-
 function main() {
   return async function () {
     try {
+      //create a new gRPC client instance
       const client = new smartLighting.Lighting('localhost:50051', grpc.credentials.createInsecure());
       let continueQuery = true;
 
       do {
+        //blank line for spacing
         console.log();
-
+        //prompt user to select an option
         const { choice } = await inquirer.prompt({
           type: 'list',
           name: 'choice',
@@ -33,8 +37,10 @@ function main() {
           ],
         });
 
+        //handle user's choice
         switch (choice) {
           case 'Light Status':
+            //get light status
             await new Promise((resolve, reject) => {
               client.LightStatus({}, (error, response) => {
                 if (error) {
@@ -49,6 +55,7 @@ function main() {
             });
             break;
           case 'Brightness Status':
+            //get brightness status
             await new Promise((resolve, reject) => {
               client.BrightnessStatus({}, (error, response) => {
                 if (error) {
@@ -63,6 +70,7 @@ function main() {
             });
             break;
           case 'Colour Status':
+            //get colour status
             await new Promise((resolve, reject) => {
               client.ColourStatus({}, (error, response) => {
                 if (error) {
@@ -77,6 +85,7 @@ function main() {
             });
             break;
           case 'Turn Light On/Off':
+            //turn light on or off
             const { isOnInput } = await inquirer.prompt({
               type: 'list',
               name: 'isOnInput',
@@ -85,7 +94,7 @@ function main() {
             });
             const isOn = isOnInput === 'On';
 
-            // Check current light status before changing
+            // check current light status before changing
             let currentStatus;
             await new Promise((resolve, reject) => {
               client.LightStatus({}, (error, response) => {
@@ -117,6 +126,7 @@ function main() {
             }
             break;
           case 'Adjust Brightness':
+            //adjust brightness
             const { newBrightnessLevel } = await inquirer.prompt({
               type: 'input',
               name: 'newBrightnessLevel',
@@ -140,6 +150,7 @@ function main() {
             });
             break;
           case 'Change Colour':
+            //change colour
             const { newColour } = await inquirer.prompt({
               type: 'list',
               name: 'newColour',
@@ -164,7 +175,7 @@ function main() {
             console.log(chalk.red('Invalid choice. Please select an option from the list.'));
             break;
         }
-
+        //prompt user if they want to select another query
         const { anotherQuery } = await inquirer.prompt({
           type: 'list',
           name: 'anotherQuery',
@@ -172,9 +183,11 @@ function main() {
           choices: ['Yes', 'No']
         });
 
+        //continue or exit based on user's choice
         continueQuery = anotherQuery === 'Yes';
       } while (continueQuery);
     } catch (error) {
+      //handle error
       if (error.code === grpc.status.UNAVAILABLE) {
         console.error(chalk.red('Error: Server is unavailable. Please try again later.'));
       } else {
@@ -184,7 +197,6 @@ function main() {
   }
 }
 
-main();
-
+//export the main function for main_client.js to call
 module.exports.main = main;
 

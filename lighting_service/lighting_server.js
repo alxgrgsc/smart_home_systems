@@ -1,14 +1,17 @@
+//Purpose: Server for the smart lighting service. It provides the implementation for the lighting service methods, such as querying the current status of the light, turning the light on or off, adjusting the brightness level, and changing the colour of the light.
+
+//import modules
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const PROTO_PATH = "./lighting_service/smart_lighting.proto";
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const smartHomeProto = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
-// Default states
+//initialize default states
 let lightStatus = 0; // 0 off / 1 on
 let brightnessLevel = 100; // brightness
 let currentColour = 'white'; // colour
-
+//allowed colours
 const ALLOWED_COLOURS = ['white', 'red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink'];
 
 // gRPC service method for LightStatus

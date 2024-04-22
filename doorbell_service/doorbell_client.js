@@ -1,3 +1,6 @@
+// Purpose: Client for the smart lighting service. It allows the user to interact with the lighting service by querying the current status of the light, turning the light on or off, adjusting the brightness level, and changing the colour of the light.
+
+//import modules
 const grpc = require('@grpc/grpc-js');
 const chalk = require('chalk');
 const protoLoader = require('@grpc/proto-loader');
@@ -7,18 +10,19 @@ const inquirer = require('inquirer');
 const packageDefinition = protoLoader.loadSync('./doorbell_service/smart_doorbell.proto', {});
 const smartDoorbell = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
-//create gRPC client
-
 
 function main() {
   return async function () {
     try {
+      //create a new gRPC client instance
       const client = new smartDoorbell.Doorbell('localhost:50052', grpc.credentials.createInsecure());
       let continueQuery = true;
 
       do {
+        //blank line for spacing
         console.log();
 
+        //prompt user to select an option
         const { choice } = await inquirer.prompt({
           type: 'list',
           name: 'choice',
@@ -32,6 +36,7 @@ function main() {
           ],
         });
 
+        //handle user's choice
         switch (choice) {
           case 'Live Video Feed':
             //live video feed
@@ -117,6 +122,7 @@ function main() {
             break;
         }
 
+        //prompt user if they want to select another query
         const { anotherQuery } = await inquirer.prompt({
           type: 'list',
           name: 'anotherQuery',
@@ -124,10 +130,12 @@ function main() {
           choices: ['Yes', 'No']
         });
 
+        //continue or exit based on user's choice
         continueQuery = anotherQuery === 'Yes';
 
       } while (continueQuery);
     } catch (error) {
+      //handle errors
       if (error.code === grpc.status.UNAVAILABLE) {
         console.error(chalk.red('Error: Server is unavailable. Please try again later.'));
       } else {
@@ -137,5 +145,5 @@ function main() {
   }
 }
 
-
+//export main function for main_client.js to call
 module.exports.main = main;

@@ -1,3 +1,6 @@
+// Purpose: Client for the smart thermostat service. It allows the user to interact with the thermostat service by querying the current temperature, setting the temperature, checking the boost status, managing the boost, checking the hot water status, and setting the hot water on or off.
+
+//import modules
 const grpc = require('@grpc/grpc-js');
 const chalk = require('chalk');
 const protoLoader = require('@grpc/proto-loader');
@@ -7,18 +10,20 @@ const inquirer = require('inquirer');
 const packageDefinition = protoLoader.loadSync('./thermostat_service/smart_thermostat.proto', {});
 const smartThermostat = grpc.loadPackageDefinition(packageDefinition).smart_home;
 
-//create a new client instance
+
 
 function main() {
   return async function () {
     try {
+      //create a new gRPC client instance
       const client = new smartThermostat.Thermostat('localhost:50053', grpc.credentials.createInsecure());
 
       let continueQuery = true;
 
       do {
+        //blank line for spacing
         console.log();
-
+        //prompt user to select an option
         const { choice } = await inquirer.prompt({
           type: 'list',
           name: 'choice',
@@ -34,8 +39,10 @@ function main() {
           ],
         });
 
+        //handle user's choice
         switch (choice) {
           case 'Temperature Status':
+            //get temperature status
             await new Promise((resolve, reject) => {
               client.TemperatureStatus({}, (error, response) => {
                 if (error) {
@@ -49,6 +56,7 @@ function main() {
             });
             break;
           case 'Set Temperature':
+            //set temperature
             const { setTemperature } = await inquirer.prompt({
               type: 'input',
               name: 'setTemperature',
@@ -79,6 +87,7 @@ function main() {
             });
             break;
           case 'Boost Status':
+            //get boost status
             await new Promise((resolve, reject) => {
               client.BoostStatus({}, (error, response) => {
                 if (error) {
@@ -98,6 +107,7 @@ function main() {
             });
             break;
           case 'Manage Boost':
+            //manage boost
             const { manageBoostChoice } = await inquirer.prompt({
               type: 'list',
               name: 'manageBoostChoice',
@@ -107,6 +117,7 @@ function main() {
 
             switch (manageBoostChoice) {
               case 'Set Boost On/Off':
+                //set boost
                 const { setBoost } = await inquirer.prompt({
                   type: 'list',
                   name: 'setBoost',
@@ -127,6 +138,7 @@ function main() {
                 });
                 break;
               case 'Adjust Boost':
+                //adjust boost
                 const { boostTemperature, boostTime } = await inquirer.prompt([{
                   type: 'input',
                   name: 'boostTemperature',
@@ -174,6 +186,7 @@ function main() {
             }
             break;
           case 'Hot Water Status':
+            //get hot water status
             await new Promise((resolve, reject) => {
               client.HotWaterStatus({}, (error, response) => {
                 if (error) {
@@ -187,6 +200,7 @@ function main() {
             });
             break;
           case 'Set Hot Water':
+            //set hot water
             const { setHotWater } = await inquirer.prompt({
               type: 'list',
               name: 'setHotWater',
@@ -210,18 +224,19 @@ function main() {
             console.log(chalk.red('Invalid choice. Please select an option from the list.'));
             break;
         }
-
+        //prompt user if they want to select another query
         const { anotherQuery } = await inquirer.prompt({
           type: 'list',
           name: 'anotherQuery',
           message: 'Do you want to select another query?',
           choices: ['Yes', 'No']
         });
-
+        //continue or exit based on user's choice
         continueQuery = anotherQuery === 'Yes';
 
       } while (continueQuery);
     } catch (error) {
+      //handle errors
       if (error.code === grpc.status.UNAVAILABLE) {
         console.error(chalk.red('Error: Server is unavailable. Please try again later.'));
       } else {
@@ -231,5 +246,5 @@ function main() {
   }
 }
 
-
+//export main function for main_client.js to call
 module.exports.main = main;
