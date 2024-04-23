@@ -20,10 +20,18 @@ To effortlessly deploy and operate the Smart Home System, adhere to these straig
 
 1. Clone this repository to your local machine.
 2. Navigate to the project directory.
-3. Initiate the installation process by executing `npm install`.
-4. Launch the server by executing `npm start`.
+3. Start each server by running three different terminals with the command "node /desired_service/service_server.js"
+4. Start the main client by running "node main_client.js"
 5. Access the client application to seamlessly interact with the system.
+
+## For Linux
+
+I have made a script that will run all the server files and start the main_client as well
+
+For this you need to install xterm on linux by running "sudo apt install xterm"
+
+After that, from the project directory, start a new terminal and run "./run_client_linux.sh"
 
 ## Usage
 
-Once the server is operational, leverage the intuitive client application to seamlessly interact with both the doorbell and lighting systems. Simply follow the prompts within the client application to execute diverse actions, ranging from viewing live video feeds to fine-tuning lighting configurations and managing doorbell functionalities.
+Once the server is operational, leverage the intuitive client application to seamlessly interact with all three services. Simply follow the prompts within the client application to execute diverse actions, ranging from viewing live video feeds to fine-tuning lighting configurations and managing the temperature in the household.
