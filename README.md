@@ -1,6 +1,6 @@
 # smart_home_systems
 
-Of course! Here's a basic README.md description for your project:
+
 
 ---
 
